@@ -196,6 +196,7 @@
             this.applyFilter.TabIndex = 5;
             this.applyFilter.Text = "apply";
             this.applyFilter.UseVisualStyleBackColor = true;
+            this.applyFilter.Click += new System.EventHandler(this.applyFilter_Click);
             // 
             // panel4
             // 
@@ -225,8 +226,16 @@
             // 
             this.filtersCombo.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.filtersCombo.Font = new System.Drawing.Font("Century", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(254)));
-            this.filtersCombo.ForeColor = System.Drawing.Color.White;
+            this.filtersCombo.ForeColor = System.Drawing.Color.Black;
             this.filtersCombo.FormattingEnabled = true;
+            this.filtersCombo.Items.AddRange(new object[] {
+            "Blanco y negro",
+            "Negativo",
+            "Dividir",
+            "Gaussiano",
+            "Escala de grises",
+            "Morado",
+            "Sepia"});
             this.filtersCombo.Location = new System.Drawing.Point(68, 242);
             this.filtersCombo.Name = "filtersCombo";
             this.filtersCombo.Size = new System.Drawing.Size(121, 23);
@@ -258,8 +267,13 @@
             // 
             this.comboBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.comboBox1.Font = new System.Drawing.Font("Century", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(254)));
-            this.comboBox1.ForeColor = System.Drawing.Color.White;
+            this.comboBox1.ForeColor = System.Drawing.Color.Black;
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "RGB",
+            "Rojo",
+            "Verde",
+            "Azul"});
             this.comboBox1.Location = new System.Drawing.Point(59, 239);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 23);

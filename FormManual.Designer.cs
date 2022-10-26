@@ -70,10 +70,10 @@
             // axAcroPDF1
             // 
             this.axAcroPDF1.Enabled = true;
-            this.axAcroPDF1.Location = new System.Drawing.Point(152, 0);
+            this.axAcroPDF1.Location = new System.Drawing.Point(43, 0);
             this.axAcroPDF1.Name = "axAcroPDF1";
             this.axAcroPDF1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axAcroPDF1.OcxState")));
-            this.axAcroPDF1.Size = new System.Drawing.Size(371, 370);
+            this.axAcroPDF1.Size = new System.Drawing.Size(617, 370);
             this.axAcroPDF1.TabIndex = 0;
             // 
             // FormManual

@@ -31,6 +31,8 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.btn_webcamstart = new System.Windows.Forms.Button();
+            this.cb_webcamslist = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.PB_webcam = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -39,8 +41,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.cb_webcamslist = new System.Windows.Forms.ComboBox();
-            this.btn_webcamstart = new System.Windows.Forms.Button();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_webcam)).BeginInit();
             this.panel3.SuspendLayout();
@@ -76,6 +76,24 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(454, 316);
             this.panel4.TabIndex = 18;
+            // 
+            // btn_webcamstart
+            // 
+            this.btn_webcamstart.Location = new System.Drawing.Point(264, 283);
+            this.btn_webcamstart.Name = "btn_webcamstart";
+            this.btn_webcamstart.Size = new System.Drawing.Size(79, 19);
+            this.btn_webcamstart.TabIndex = 16;
+            this.btn_webcamstart.Text = "start";
+            this.btn_webcamstart.UseVisualStyleBackColor = true;
+            this.btn_webcamstart.Click += new System.EventHandler(this.btn_webcamstart_Click);
+            // 
+            // cb_webcamslist
+            // 
+            this.cb_webcamslist.FormattingEnabled = true;
+            this.cb_webcamslist.Location = new System.Drawing.Point(70, 282);
+            this.cb_webcamslist.Name = "cb_webcamslist";
+            this.cb_webcamslist.Size = new System.Drawing.Size(167, 21);
+            this.cb_webcamslist.TabIndex = 15;
             // 
             // label5
             // 
@@ -116,7 +134,6 @@
             // textBox2
             // 
             this.textBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox2.Enabled = false;
             this.textBox2.Location = new System.Drawing.Point(20, 188);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
@@ -126,7 +143,6 @@
             // textBox1
             // 
             this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox1.Enabled = false;
             this.textBox1.Location = new System.Drawing.Point(20, 96);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
@@ -165,24 +181,6 @@
             this.label1.Size = new System.Drawing.Size(192, 20);
             this.label1.TabIndex = 15;
             this.label1.Text = "Deteccion de movimiento";
-            // 
-            // cb_webcamslist
-            // 
-            this.cb_webcamslist.FormattingEnabled = true;
-            this.cb_webcamslist.Location = new System.Drawing.Point(70, 282);
-            this.cb_webcamslist.Name = "cb_webcamslist";
-            this.cb_webcamslist.Size = new System.Drawing.Size(167, 21);
-            this.cb_webcamslist.TabIndex = 15;
-            // 
-            // btn_webcamstart
-            // 
-            this.btn_webcamstart.Location = new System.Drawing.Point(264, 283);
-            this.btn_webcamstart.Name = "btn_webcamstart";
-            this.btn_webcamstart.Size = new System.Drawing.Size(79, 19);
-            this.btn_webcamstart.TabIndex = 16;
-            this.btn_webcamstart.Text = "start";
-            this.btn_webcamstart.UseVisualStyleBackColor = true;
-            this.btn_webcamstart.Click += new System.EventHandler(this.btn_webcamstart_Click);
             // 
             // FormCamera
             // 
