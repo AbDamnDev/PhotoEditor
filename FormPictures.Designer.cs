@@ -329,6 +329,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "FormPictures";
             this.Text = "FormPictures";
+            this.Load += new System.EventHandler(this.FormPictures_Load);
             ((System.ComponentModel.ISupportInitialize)(this.normal_Pic)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();

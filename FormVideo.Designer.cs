@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormVideo));
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -35,19 +36,30 @@
             this.label4 = new System.Windows.Forms.Label();
             this.Examinar = new FontAwesome.Sharp.IconButton();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.normal_Pic = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.label_path = new System.Windows.Forms.Label();
+            this.btn_play = new System.Windows.Forms.Button();
+            this.btn_pause = new System.Windows.Forms.Button();
+            this.btn_stop = new System.Windows.Forms.Button();
+            this.btn_applyFilter = new System.Windows.Forms.Button();
+            this.textBox_path = new System.Windows.Forms.TextBox();
+            this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.normal_Pic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.Transparent;
+            this.panel2.Controls.Add(this.textBox_path);
+            this.panel2.Controls.Add(this.label_path);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
@@ -65,6 +77,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.btn_applyFilter);
             this.panel3.Controls.Add(this.label5);
             this.panel3.Controls.Add(this.label4);
             this.panel3.Controls.Add(this.Examinar);
@@ -115,6 +128,7 @@
             this.Examinar.Text = "Examinar";
             this.Examinar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.Examinar.UseVisualStyleBackColor = false;
+            this.Examinar.Click += new System.EventHandler(this.Examinar_Click);
             // 
             // comboBox1
             // 
@@ -122,28 +136,25 @@
             this.comboBox1.Font = new System.Drawing.Font("Century", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(254)));
             this.comboBox1.ForeColor = System.Drawing.Color.White;
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Negativo",
+            "Escala_de_grises",
+            "Morado",
+            "Sepia",
+            "Gradiente",
+            "BlancoyNegro"});
             this.comboBox1.Location = new System.Drawing.Point(15, 142);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 23);
             this.comboBox1.TabIndex = 5;
             // 
-            // normal_Pic
-            // 
-            this.normal_Pic.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.normal_Pic.BackColor = System.Drawing.Color.MediumSlateBlue;
-            this.normal_Pic.Location = new System.Drawing.Point(230, 99);
-            this.normal_Pic.Name = "normal_Pic";
-            this.normal_Pic.Size = new System.Drawing.Size(358, 214);
-            this.normal_Pic.TabIndex = 13;
-            this.normal_Pic.TabStop = false;
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox1.BackColor = System.Drawing.Color.MediumSlateBlue;
-            this.pictureBox1.Location = new System.Drawing.Point(230, 336);
+            this.pictureBox1.Location = new System.Drawing.Point(230, 352);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(358, 48);
+            this.pictureBox1.Size = new System.Drawing.Size(358, 32);
             this.pictureBox1.TabIndex = 14;
             this.pictureBox1.TabStop = false;
             // 
@@ -152,7 +163,7 @@
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Century", 10F);
-            this.label1.Location = new System.Drawing.Point(361, 316);
+            this.label1.Location = new System.Drawing.Point(361, 327);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(84, 17);
             this.label1.TabIndex = 17;
@@ -173,25 +184,107 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // label_path
+            // 
+            this.label_path.AutoSize = true;
+            this.label_path.Location = new System.Drawing.Point(186, 18);
+            this.label_path.Name = "label_path";
+            this.label_path.Size = new System.Drawing.Size(0, 13);
+            this.label_path.TabIndex = 0;
+            // 
+            // btn_play
+            // 
+            this.btn_play.Location = new System.Drawing.Point(605, 113);
+            this.btn_play.Name = "btn_play";
+            this.btn_play.Size = new System.Drawing.Size(75, 23);
+            this.btn_play.TabIndex = 20;
+            this.btn_play.Text = "play";
+            this.btn_play.UseVisualStyleBackColor = true;
+            this.btn_play.Click += new System.EventHandler(this.btn_play_Click);
+            // 
+            // btn_pause
+            // 
+            this.btn_pause.Location = new System.Drawing.Point(605, 154);
+            this.btn_pause.Name = "btn_pause";
+            this.btn_pause.Size = new System.Drawing.Size(75, 23);
+            this.btn_pause.TabIndex = 21;
+            this.btn_pause.Text = "pause";
+            this.btn_pause.UseVisualStyleBackColor = true;
+            this.btn_pause.Click += new System.EventHandler(this.btn_pause_Click);
+            // 
+            // btn_stop
+            // 
+            this.btn_stop.Location = new System.Drawing.Point(605, 193);
+            this.btn_stop.Name = "btn_stop";
+            this.btn_stop.Size = new System.Drawing.Size(75, 23);
+            this.btn_stop.TabIndex = 22;
+            this.btn_stop.Text = "stop";
+            this.btn_stop.UseVisualStyleBackColor = true;
+            this.btn_stop.Click += new System.EventHandler(this.btn_stop_Click);
+            // 
+            // btn_applyFilter
+            // 
+            this.btn_applyFilter.Location = new System.Drawing.Point(31, 196);
+            this.btn_applyFilter.Name = "btn_applyFilter";
+            this.btn_applyFilter.Size = new System.Drawing.Size(75, 23);
+            this.btn_applyFilter.TabIndex = 23;
+            this.btn_applyFilter.Text = "apply";
+            this.btn_applyFilter.UseVisualStyleBackColor = true;
+            this.btn_applyFilter.Click += new System.EventHandler(this.btn_applyFilter_Click);
+            // 
+            // textBox_path
+            // 
+            this.textBox_path.Location = new System.Drawing.Point(187, 43);
+            this.textBox_path.Name = "textBox_path";
+            this.textBox_path.Size = new System.Drawing.Size(268, 20);
+            this.textBox_path.TabIndex = 1;
+            // 
+            // axWindowsMediaPlayer1
+            // 
+            this.axWindowsMediaPlayer1.Enabled = true;
+            this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(230, 98);
+            this.axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
+            this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
+            this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(358, 225);
+            this.axWindowsMediaPlayer1.TabIndex = 19;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.MediumPurple;
+            this.pictureBox2.Location = new System.Drawing.Point(230, 90);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(368, 237);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 23;
+            this.pictureBox2.TabStop = false;
+            // 
             // FormVideo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(693, 464);
+            this.Controls.Add(this.btn_stop);
+            this.Controls.Add(this.btn_pause);
+            this.Controls.Add(this.btn_play);
+            this.Controls.Add(this.axWindowsMediaPlayer1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.normal_Pic);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
+            this.Controls.Add(this.pictureBox2);
             this.Name = "FormVideo";
             this.Text = "FormVideo";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormVideo_FormClosing);
             this.Load += new System.EventHandler(this.FormVideo_Load);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.normal_Pic)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -206,10 +299,17 @@
         private System.Windows.Forms.Label label4;
         private FontAwesome.Sharp.IconButton Examinar;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.PictureBox normal_Pic;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
+        private System.Windows.Forms.Label label_path;
+        private System.Windows.Forms.Button btn_play;
+        private System.Windows.Forms.Button btn_applyFilter;
+        private System.Windows.Forms.Button btn_pause;
+        private System.Windows.Forms.Button btn_stop;
+        private System.Windows.Forms.TextBox textBox_path;
+        public System.Windows.Forms.PictureBox pictureBox2;
     }
 }

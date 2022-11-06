@@ -33,9 +33,9 @@ namespace PhotoEditor
     public partial class FormPictures : Form
     {
         Image<Bgr, byte> _inputImage = null;
-        Image<Gray, byte> R = null;
-        Image<Gray, byte> G = null;
-        Image<Gray, byte> B = null;
+        //Image<Gray, byte> R = null;
+        //Image<Gray, byte> G = null;
+        //Image<Gray, byte> B = null;
         //private Mat imageHist = null;
         //private DenseHistogram hist = null;
 
@@ -47,14 +47,17 @@ namespace PhotoEditor
         private void resetImage_Click(object sender, EventArgs e)
         {
             //sigue sin actualizar
-            Bitmap original = (Bitmap)normal_Pic.Image;
-            pictureBox2.Image = null;
-            if (pictureBox2.Image ==null)
+            using (Bitmap original = new Bitmap(normal_Pic.Image))
             {
-                pictureBox2.Image = ( Image )(original.Clone() );
-                pictureBox2.Update();
+                pictureBox2.Image = null;
+                if (pictureBox2.Image == null)
+                {
+                    pictureBox2.Image = (Image)original;
+                    pictureBox2.Refresh();
+                }
+                original.Dispose();
             }
-            //iginal.Dispose();
+            
         }
 
         private void saveImage_Click(object sender, EventArgs e)
@@ -72,6 +75,7 @@ namespace PhotoEditor
             }
         }
 
+
         private void Examinar_Click(object sender, EventArgs e)
         {
             
@@ -82,47 +86,20 @@ namespace PhotoEditor
                 normal_Pic.Image = image;
                 pictureBox2.Image = image;
 
-                //using (_inputImage = new Image<Bgr, byte>(ofd.FileName)){
+                
+                using (Image<Bgr, byte> _inputImage = new Image<Bgr, byte>(ofd.FileName))
+                {
+                    histogramBox1.ClearHistogram();
+                    histogramBox1.FunctionalMode = Emgu.CV.UI.HistogramBox.FunctionalModeOption.Everything;
+                    histogramBox1.GenerateHistograms(_inputImage, 256);
+                    histogramBox1.Refresh();
 
-                //    using ( B = _inputImage[0])
-                //    {
-                //        using ( G = _inputImage[1])
-                //        {
-                //            using (R = _inputImage[2])
-                //            {
+                    _inputImage.Dispose();
 
-                //            }
-                //        }
-                //    }
-
-                //}
-
-               Image<Bgr, byte> _inputImage = new Image<Bgr, byte>(ofd.FileName);
-                Mat hist = new Mat();
-                float[] ranges = new float[] { 0, 255 };
-                int[] channel = { 0 };
-                int[] histsize = { 256 };
-
-                VectorOfMat ms = new VectorOfMat();
-                ms.Push(_inputImage);
-
-                CvInvoke.CalcHist(ms, channel, null, hist, histsize, ranges, false);
-                //HistogramViewer viewer = new HistogramViewer();
-                //viewer.Text = "Histograma de la imagen";
-                //viewer.ShowIcon = false;
-
-                //viewer.HistogramCtrl.GenerateHistograms(viewer.HistogramCtrl.GenerateHistogram("Image histogram", Color.Red, hist, histsize[0], ranges),256);
-                //viewer.HistogramCtrl.Refresh();
-                //viewer.HistogramCtrl.Show();
-
-                histogramBox1.ClearHistogram();
-                histogramBox1.FunctionalMode = Emgu.CV.UI.HistogramBox.FunctionalModeOption.Everything;
-                histogramBox1.GenerateHistograms(_inputImage, 256);
-                histogramBox1.Refresh();
-                //_inputImage.Dispose();
-                //image.Dispose();
+                }
 
 
+                  
 
             }
         }
@@ -131,70 +108,99 @@ namespace PhotoEditor
         {
             if (filtersCombo.SelectedIndex != -1)
             {
+                Bitmap temp = null;
                 switch (filtersCombo.SelectedItem.ToString())
-                {
+                {   
                     case "BlancoyNegro":
-                        pictureBox2.Image = (Image)bandnFilter();
+                        temp= bandnFilter();
+                        pictureBox2.Image = (Image)temp;
+                        genHistogram(temp);
+                        temp.Dispose();
                         break;
                     case "Negativo":
-                        pictureBox2.Image = (Image)negativoFilter();
+                        temp = negativoFilter();
+                        pictureBox2.Image = (Image)temp;
+                        genHistogram(temp);
+                        temp.Dispose();
                         break;
                     case "Gradiente":
-                        pictureBox2.Image = (Image)gradienteFilter();
+                        //pictureBox2.Image = (Image)gradienteFilter();
+                        temp = gradienteFilter();
+                        pictureBox2.Image = (Image)temp;
+                        genHistogram(temp);
+                        temp.Dispose();
                         break;
                     case "Sepia":
-                        pictureBox2.Image = (Image)sepiaFilter();
+                       // pictureBox2.Image = (Image)sepiaFilter();
+                        temp = sepiaFilter();
+                        pictureBox2.Image = (Image)temp;
+                        genHistogram(temp);
+                        temp.Dispose();
                         break;
                     case "Escala_de_grises":
-                        pictureBox2.Image = (Image)grayscaleFilter();
+                       // pictureBox2.Image = (Image)grayscaleFilter();
+                        temp = grayscaleFilter();
+                        pictureBox2.Image = (Image)temp;
+                        genHistogram(temp);
+                        temp.Dispose();
                         break;
                     case "Morado":
-                        pictureBox2.Image = (Image)colorFilter();
+                        //pictureBox2.Image = (Image)colorFilter();
+                        temp = colorFilter();
+                        pictureBox2.Image = (Image)temp;
+                        genHistogram(temp);
+                        temp.Dispose();
                         break;
                     default:
                     break;
                 }
             }
         }
-        private void genHistogram()
+        private void genHistogram(Bitmap bmp)
         {
-            
-            if (_inputImage != null)
+            using (Image<Bgr, byte> _inputImage = bmp.ToImage<Bgr, byte>())
             {
-                Mat imageHist = null;
-                DenseHistogram hist = null;
-                //float[] RedHist;
-                hist = new DenseHistogram(256, new RangeF(0, 256));//(0.0f, 255.0f)
-                Image<Gray, byte>[] grayred = new Image<Gray, byte>[] { R };
-                hist.Calculate(grayred, false, null);
+                //Mat hist = new Mat();
+                //float[] ranges = new float[] { 0, 255 };
+                //int[] channel = { 0 };
+                //int[] histsize = { 256 };
 
-               // MessageBox.Show("histogram : "+hist.ToString());
-                Mat m = new Mat();
-                //hist.CopyTo(m);
-                //RedHist = new float[256];
-                //hist.CopyTo(m);
-                hist.CopyTo(m);
-                //MessageBox.Show("histogram : " + m);
-                //histogramBox1.MatND.ManagedArray.CopyTo(RedHist, 0);
+                //VectorOfMat ms = new VectorOfMat();
+                //ms.Push(_inputImage);
+
+                //CvInvoke.CalcHist(ms, channel, null, hist, histsize, ranges, false);
+
                 histogramBox1.ClearHistogram();
-                imageHist=histogramBox1.GenerateHistogram("red histogram", Color.Red, m, 256, new float[] { 0f, 255f });
-                histogramBox1.GenerateHistograms(imageHist, 256);
+                histogramBox1.FunctionalMode = Emgu.CV.UI.HistogramBox.FunctionalModeOption.Everything;
+                histogramBox1.GenerateHistograms(_inputImage, 256);
                 histogramBox1.Refresh();
-                grayred = null;
-                m.Dispose();
-               
-                imageHist.Dispose();
-                hist.Dispose();
-
+                //hist.Dispose();
             }
-            else
+
+
+        }
+        private void genSpecificHistogram(Bitmap bmp, int chn)
+        {
+            using (Image<Bgr, byte> _inputImage = bmp.ToImage<Bgr, byte>())
             {
-                MessageBox.Show("R no tiene datos");
-                return;
+                //Mat hist = new Mat();
+                //float[] ranges = new float[] { 0, 255 };
+                //int[] channel = { 0 };
+                //int[] histsize = { 256 };
 
+                //VectorOfMat ms = new VectorOfMat();
+
+                //ms.Push(_inputImage[chn]);
+
+                //CvInvoke.CalcHist(ms, channel, null, hist, histsize, ranges, false);
+
+                histogramBox1.ClearHistogram();
+                histogramBox1.FunctionalMode = Emgu.CV.UI.HistogramBox.FunctionalModeOption.Everything;
+                histogramBox1.GenerateHistograms(_inputImage[chn], 256);
+                histogramBox1.Refresh();
+                //hist.Dispose();
             }
 
-            
         }
         //funciona
         Bitmap negativoFilter()
@@ -412,21 +418,38 @@ namespace PhotoEditor
         {
             if(comboBox1.SelectedIndex != -1)
             {
+                Bitmap myimage=null;
                 switch (comboBox1.SelectedItem.ToString())
                 {
                     case "R":
-                       // pictureBox2.Image = (Image)bandnFilter();
+                        myimage = (Bitmap)pictureBox2.Image;
+                        genSpecificHistogram(myimage, 2);
+                      
                         break;
                     case "G":
-                       // pictureBox2.Image = (Image)negativoFilter();
+                        myimage = (Bitmap)pictureBox2.Image;
+                        genSpecificHistogram(myimage, 1);
+                      
                         break;
                     case "B":
-                        //pictureBox2.Image = (Image)gradienteFilter();
+                        myimage = (Bitmap)pictureBox2.Image;
+                        genSpecificHistogram(myimage, 0);
+                       
+                        break;
+                    case "RGB":
+                        myimage = (Bitmap)pictureBox2.Image;
+                        genHistogram(myimage);
                         break;
                     default:
                         break;
                 }
+                myimage.Dispose();
             }
+        }
+
+        private void FormPictures_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
