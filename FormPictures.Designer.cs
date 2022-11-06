@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.Examinar = new FontAwesome.Sharp.IconButton();
             this.normal_Pic = new System.Windows.Forms.PictureBox();
@@ -45,6 +46,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.filtersCombo = new System.Windows.Forms.ComboBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.histogramBox1 = new Emgu.CV.UI.HistogramBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.panel6 = new System.Windows.Forms.Panel();
@@ -53,6 +55,7 @@
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.histogramBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -229,13 +232,12 @@
             this.filtersCombo.ForeColor = System.Drawing.Color.Black;
             this.filtersCombo.FormattingEnabled = true;
             this.filtersCombo.Items.AddRange(new object[] {
-            "Blanco y negro",
             "Negativo",
-            "Dividir",
-            "Gaussiano",
-            "Escala de grises",
+            "Escala_de_grises",
             "Morado",
-            "Sepia"});
+            "Sepia",
+            "Gradiente",
+            "BlancoyNegro"});
             this.filtersCombo.Location = new System.Drawing.Point(68, 242);
             this.filtersCombo.Name = "filtersCombo";
             this.filtersCombo.Size = new System.Drawing.Size(121, 23);
@@ -245,6 +247,7 @@
             // 
             this.panel5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panel5.BackColor = System.Drawing.Color.Transparent;
+            this.panel5.Controls.Add(this.histogramBox1);
             this.panel5.Controls.Add(this.pictureBox1);
             this.panel5.Controls.Add(this.comboBox1);
             this.panel5.Controls.Add(this.label3);
@@ -253,6 +256,16 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(231, 271);
             this.panel5.TabIndex = 18;
+            // 
+            // histogramBox1
+            // 
+            this.histogramBox1.BackColor = System.Drawing.Color.MediumPurple;
+            this.histogramBox1.Location = new System.Drawing.Point(18, 26);
+            this.histogramBox1.Name = "histogramBox1";
+            this.histogramBox1.Size = new System.Drawing.Size(193, 194);
+            this.histogramBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.histogramBox1.TabIndex = 2;
+            this.histogramBox1.TabStop = false;
             // 
             // pictureBox1
             // 
@@ -270,14 +283,14 @@
             this.comboBox1.ForeColor = System.Drawing.Color.Black;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
-            "RGB",
-            "Rojo",
-            "Verde",
-            "Azul"});
+            "R",
+            "G",
+            "B"});
             this.comboBox1.Location = new System.Drawing.Point(59, 239);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 23);
             this.comboBox1.TabIndex = 4;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // panel6
             // 
@@ -323,6 +336,7 @@
             this.panel4.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.histogramBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
@@ -335,7 +349,6 @@
 
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private FontAwesome.Sharp.IconButton Examinar;
-        private System.Windows.Forms.PictureBox normal_Pic;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label1;
@@ -350,9 +363,11 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox filtersCombo;
         private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        public System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        public System.Windows.Forms.PictureBox normal_Pic;
+        public System.Windows.Forms.PictureBox pictureBox2;
+        private Emgu.CV.UI.HistogramBox histogramBox1;
     }
 }

@@ -20,7 +20,7 @@ namespace PhotoEditor
     {
         MotionDetector Detector;
         float nivelDeDeteccion;
-        //Bitmap bmp;
+        Bitmap bmp=null;
         Rectangle[] rectangles;
         public FormCamera()
         {
@@ -55,64 +55,71 @@ namespace PhotoEditor
         {
             try
             {
-                if (eventArgs.Frame != null)
+                //if (eventArgs.Frame != null)
+
+
+                //Image oldImage = PB_webcam.Image;
+
+                bmp = (Bitmap)eventArgs.Frame.Clone();
+
+
+                //nivelDeDeteccion = Detector.ProcessFrame((Bitmap)eventArgs.Frame);
+
+                //nivelDeDeteccion = Detector.ProcessFrame(bmp);
+               
+                faceRecognition(ref bmp);
+
+                //var @delegate = new SetTBTextCallback(updatePeopleText);
+                //var @delegate2 = new SetTBTextCallback(updateMovementText);
+                //new Task(() => this.label1.BeginInvoke(@delegate, rectangles.Length.ToString())).Start();
+               // new Task(() => this.label1.BeginInvoke(@delegate2, "movimiento")).Start();
+
+                if (PB_webcam.Image != null)
                 {
-                    
-                    Image oldImage = PB_webcam.Image;
-                    Bitmap bmp = (Bitmap)eventArgs.Frame.Clone();
-
-                    //nivelDeDeteccion = Detector.ProcessFrame((Bitmap)eventArgs.Frame);
-
-                    nivelDeDeteccion = Detector.ProcessFrame(bmp);
-                    faceRecognition(bmp);
-                    
-                    var @delegate = new SetTBTextCallback(updatePeopleText);
-                    var @delegate2 = new SetTBTextCallback(updateMovementText);
-                    new Task(() => this.label1.BeginInvoke(@delegate, rectangles.Length.ToString())).Start();
-                    new Task(() => this.label1.BeginInvoke(@delegate2, "movimiento")).Start();
-
-                    if (PB_webcam.Image != null)
-                    {
-                        PB_webcam.Image.Dispose();
-                    }
-                    PB_webcam.Image = bmp;
-                    if (oldImage != null) { oldImage.Dispose(); }
-                    //if (bmp != null)
-                    //{
-                    //    bmp.Dispose();
-                    //}
+                    PB_webcam.Image.Dispose();
                 }
+                PB_webcam.Image = bmp;
+                //bmp.Dispose();
+                //if (oldImage != null) { oldImage.Dispose(); }
+                eventArgs.Frame.Dispose();
+
+
             }
             catch (Exception ex)
             {
                 videoCaptureDevice.SignalToStop();
                 MessageBox.Show("Camera Settings Frame Feed - Error: \n\n" + ex.Message, "Error");
             }
+            
             //throw new NotImplementedException();
         }
-        private void faceRecognition(Bitmap bmp)
+        private void faceRecognition(ref Bitmap bmp)
         {
-            Image<Bgr, byte> grayImage = bmp.ToImage<Bgr, byte>();
-            rectangles = cascadeClassifier.DetectMultiScale(grayImage, 1.2, 1);
             int i = 0;
-            SolidBrush solidBrush = new SolidBrush(Color.Yellow);
-            Font font = new Font("Arial", 30.0f);
-            foreach (Rectangle rectangle in rectangles)
+            using (Image<Bgr, byte> grayImage = bmp.ToImage<Bgr, byte>())
             {
-                i++;
-                using (Graphics graphics = Graphics.FromImage(bmp))
-                {
-                    using (Pen pen = new Pen(Color.Yellow, 3))
-                    {
-                        graphics.DrawRectangle(pen, rectangle);
-                        graphics.DrawString("Persona" + i, font, solidBrush, rectangle.Location);
-                    }
-                }
+                rectangles = cascadeClassifier.DetectMultiScale(grayImage, 1.2, 1);
 
-            }
-            if (grayImage != null)
-            {
-                grayImage.Dispose();
+                foreach (Rectangle rectangle in rectangles)
+                {
+                    i++;
+                    using (Graphics graphics = Graphics.FromImage(bmp))
+                    {
+                        using (SolidBrush solidBrush = new SolidBrush(Color.Yellow))
+                        {
+                            using (Font font = new Font("Arial", 30.0f))
+                            {
+                                using (Pen pen = new Pen(Color.Yellow, 3))
+                                {
+                                    graphics.DrawRectangle(pen, rectangle);
+                                    graphics.DrawString("Persona" + i, font, solidBrush, rectangle.Location);
+                                }
+                            }
+                        }
+                    }
+
+                }
+                //bmp = grayImage.ToBitmap();
             }
            
 
@@ -121,19 +128,19 @@ namespace PhotoEditor
         {
             if (videoCaptureDevice.IsRunning == true)
             {
+               
+                videoCaptureDevice.NewFrame -= new NewFrameEventHandler(VideoCaptureDevice_NewFrame); // as sugested
                 videoCaptureDevice.SignalToStop();
+                videoCaptureDevice = null;
+                //PB_webcam.Image.Dispose();
+                //bmp.Dispose();
+                //videoCaptureDevice.Stop();
             }
         }
         private void updateMovementText(String mystring)
         {
-            //if (textBox2.Text != "")
-            //{
+            
             this.textBox2.Text = (nivelDeDeteccion != 0) ? "Con "+mystring : "Sin "+mystring;
-            //}
-            //else
-            //{
-            //    this.textBox2.Text = (nivelDeDeteccion != 0 && textBox2.Text=="Sin Movimiento") ? "Movimiento detectado" :(nivelDeDeteccion == 0 && textBox2.Text == "Movimiento detectado")? "Sin Movimiento": "Movimiento detectado";
-            //}
             
         }
         private void updatePeopleText(String mystring)
